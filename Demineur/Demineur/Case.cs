@@ -12,6 +12,7 @@ namespace Demineur
         private String m_contenu;
         private Curseur m_curseur;
         private static int m_count = 0;
+        private bool m_isMine;
 
         //Constructeurs...
 
@@ -29,6 +30,12 @@ namespace Demineur
         {
             get { return m_contenu; }
             set { m_contenu = value; }
+        }
+
+        public bool isMine
+        {
+            get { return m_isMine; }
+            set { m_isMine = value; }
         }
 
         public String getContenu()
@@ -54,6 +61,12 @@ namespace Demineur
         }
 
         //Méthodes...
+
+        //Mets à jour l'affichage du curseur
+        public void updateCursor()
+        {
+            m_curseur.draw(m_contenu);
+        }
 
         //Draws the content this case.
         public void draw(bool endOfLine)
@@ -86,6 +99,8 @@ namespace Demineur
             }
 
         }
+
+
 
     }
 }

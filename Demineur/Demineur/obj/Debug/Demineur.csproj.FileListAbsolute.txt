@@ -12,3 +12,9 @@ C:\Users\1320196\Demineur\Demineur\obj\Debug\Demineur.csprojAssemblyReference.ca
 C:\Users\1320196\Demineur\Demineur\obj\Debug\Demineur.csproj.CoreCompileInputs.cache
 C:\Users\1320196\Demineur\Demineur\obj\Debug\Demineur.exe
 C:\Users\1320196\Demineur\Demineur\obj\Debug\Demineur.pdb
+P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\Demineur\Demineur\bin\Debug\Demineur.exe.config
+P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\Demineur\Demineur\obj\Debug\Demineur.exe
+P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\Demineur\Demineur\obj\Debug\Demineur.pdb
+P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\Demineur\Demineur\bin\Debug\Demineur.exe
+P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\Demineur\Demineur\bin\Debug\Demineur.pdb
+P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\Demineur\Demineur\obj\Debug\Demineur.csprojResolveAssemblyReference.cache

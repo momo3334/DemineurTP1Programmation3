@@ -14,6 +14,7 @@ namespace Demineur
         private Case[] m_cases;             //Tableau contenant toute les cases du plateau.
         private int m_ligneCurseur;        //La ligne ou le curseur est présentement situé.
         private int m_colonneCurseur;     //La colonne ou le curseur est présentement situé.
+        private int m_moveCount;         //Compteur du nombre de coups effectués.
 
         //Constructeurs...
 
@@ -92,6 +93,12 @@ namespace Demineur
 
         //Accesseurs...
 
+       public int moveCount
+        {
+            set { m_moveCount = value; }
+            get { return m_moveCount; }
+        }
+
         public int getLargeur()
         {
             return this.m_largeur;
@@ -141,7 +148,7 @@ namespace Demineur
 
         public Case getCase(int line, int col)
         {
-            if (line < m_hauteur && col < m_largeur)
+            if (line < m_hauteur && col < m_largeur && line >= 0 && col >= 0)
             {
                 int indexInArray;
 
@@ -323,6 +330,7 @@ namespace Demineur
                 if (m_cases[rdn1].contenu != "B")
                 {
                     m_cases[rdn1].contenu = "B";
+                    m_cases[rdn1].isMine = true;
                     nbMine--;
                 }
 
@@ -403,6 +411,48 @@ namespace Demineur
             //        }
             //    }
             //}
+        }
+
+        public void ouvrirCase(int ligne, int colonne)
+        {
+            while (getCase(ligne, colonne).isMine && m_moveCount == 1)
+            {
+                getCase(ligne, colonne).isMine = false;
+                disperserMine(1);
+            }
+
+            int mineTouchingCount = 0;
+
+            for (int currentLine = ligne - 1; currentLine <= ligne + 1; currentLine++)
+            {
+                for (int currentCol = colonne - 1; currentCol <= colonne + 1; currentCol++)
+                {
+                    if (getCase(currentLine, currentCol) != null)
+                    {
+                        if (getCase(currentLine, currentCol).isMine)
+                        {
+                            mineTouchingCount++;
+                        }
+                    }
+                }
+            }
+
+            if (mineTouchingCount == 0)
+            {
+                //recursif peut etre sam est pas content
+            }
+
+            getCase(ligne, colonne).contenu = mineTouchingCount.ToString();
+
+
+        }
+
+        public void move()
+        {
+            m_moveCount++;
+            ouvrirCase(m_ligneCurseur, m_colonneCurseur);
+            drawBoard();
+
         }
 
     }

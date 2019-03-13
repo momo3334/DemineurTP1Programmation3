@@ -60,7 +60,17 @@ namespace Demineur
             while (m_running)
             {
                 //Afficher le plateau et attendre un input.
-                m_plateau.moveCursor(m_UI.waitForMove());
+                char input = m_UI.waitForMove();
+                if (input != 'e')
+                {
+                    m_plateau.moveCursor(input);
+                }
+                else
+                {
+                    m_plateau.move();
+                }
+
+
             }
         }
 

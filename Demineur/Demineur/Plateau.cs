@@ -70,8 +70,8 @@ namespace Demineur
                     this.m_largeur = 8;
                     break;
                 case 'C':
-                    this.m_hauteur = 10;
-                    this.m_largeur = 10;
+                    this.m_hauteur = 24;
+                    this.m_largeur = 24;
                     break;
                 default:
                     break;
@@ -235,7 +235,7 @@ namespace Demineur
 
         public void showBoardInformation()
         {
-            Console.WriteLine("Grosseur du plateau : " + getCase(0, 0).getCount() + " cases.");
+
         }
 
         /**Draws the board with the cursor at the specified location.(Row Number, Column Number)
@@ -413,14 +413,8 @@ namespace Demineur
             //}
         }
 
-        public void ouvrirCase(int ligne, int colonne)
+        public int countSurrondingMines(int ligne, int colonne)
         {
-            while (getCase(ligne, colonne).isMine && m_moveCount == 1)
-            {
-                getCase(ligne, colonne).isMine = false;
-                disperserMine(1);
-            }
-
             int mineTouchingCount = 0;
 
             for (int currentLine = ligne - 1; currentLine <= ligne + 1; currentLine++)
@@ -437,12 +431,55 @@ namespace Demineur
                 }
             }
 
-            if (mineTouchingCount == 0)
+            return mineTouchingCount;
+        }
+
+        public void ouvrirCase(int ligne, int colonne)
+        {
+            while (getCase(ligne, colonne) != null && getCase(ligne, colonne).isMine && m_moveCount == 1)
             {
-                //recursif peut etre sam est pas content
+                getCase(ligne, colonne).isMine = false;
+                disperserMine(1);
             }
 
-            getCase(ligne, colonne).contenu = mineTouchingCount.ToString();
+
+            if (getCase(ligne, colonne).isMine == false)
+            {
+
+                int mineTouchingCount = countSurrondingMines(ligne, colonne);
+
+                if (mineTouchingCount != 0)
+                {
+                    getCase(ligne, colonne).contenu = mineTouchingCount.ToString();
+                }
+                else
+                {
+                    getCase(ligne, colonne).contenu = " ";
+                }
+                getCase(ligne, colonne).isOpen = true;
+
+                if (mineTouchingCount == 0)
+                {
+                    for (int currentLine = ligne - 1; currentLine <= ligne + 1; currentLine++)
+                    {
+                        for (int currentCol = colonne - 1; currentCol <= colonne + 1; currentCol++)
+                        {
+                            if (getCase(currentLine, currentCol) != null)
+                            {
+                                if (!(currentLine == ligne && currentCol == colonne))
+                                {
+                                    if (getCase(currentLine, currentCol).isOpen == false)
+                                    {
+                                        ouvrirCase(currentLine, currentCol);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
 
 
         }

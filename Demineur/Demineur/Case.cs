@@ -13,6 +13,7 @@ namespace Demineur
         private Curseur m_curseur;
         private static int m_count = 0;
         private bool m_isMine;
+        private bool m_isOpen;
 
         //Constructeurs...
 
@@ -20,6 +21,7 @@ namespace Demineur
         {
             this.m_curseur = null;
             this.m_contenu = "\0";
+            this.m_isOpen = false;
             m_count++;
         }
 
@@ -30,6 +32,12 @@ namespace Demineur
         {
             get { return m_contenu; }
             set { m_contenu = value; }
+        }
+
+        public bool isOpen
+        {
+            get { return m_isOpen; }
+            set { m_isOpen = value; }
         }
 
         public bool isMine

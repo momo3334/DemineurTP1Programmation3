@@ -57,9 +57,14 @@ namespace Demineur
 
             m_plateau.drawBoard();
 
+
             while (m_running)
             {
                 //Afficher le plateau et attendre un input.
+                m_UI.showPlayerName();
+                m_UI.showDifficulty(m_difficulte);
+                m_UI.showBoardSize(m_plateau.getCase(0,0).getCount());   //Ouain c'est boboche en criss ca... donnée devrait etre prise dans la longueur du tableau cases.
+
                 char input = m_UI.waitForMove();
                 if (input != 'e')
                 {

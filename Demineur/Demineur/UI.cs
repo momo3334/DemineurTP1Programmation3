@@ -49,6 +49,36 @@ namespace Demineur
             Console.WriteLine("Nom du joueur:" + m_nomJoueur);
         }
 
+        public void showDifficulty(char difficulty)
+        {
+            Console.WriteLine("+-------------------------------------------------+");
+            Console.Write("| Niveau de difficulté du tableau: ");
+            switch (difficulty)
+            {
+                case 'A':
+                    Console.WriteLine(" Facile        |");
+                    break;
+                case 'B':
+                    Console.WriteLine(" Intermédiaire |");
+                    break;
+                case 'C':
+                    Console.WriteLine(" Difficile     |");
+                    break;
+                case 'D':
+                    Console.WriteLine(" Extrême       |");
+                    break;
+
+                default:
+                    break;
+            }
+            Console.WriteLine("+-------------------------------------------------+");
+        }
+
+        public void showBoardSize(int size)
+        {
+            Console.WriteLine("Grosseur du plateau : " + size + " cases.");
+        }
+
         public char askSize()
         {
             Curseur curseur = new Curseur();
@@ -139,49 +169,103 @@ namespace Demineur
 
         public char askDifficulty()
         {
+            Curseur curseur = new Curseur();
+            int curseurPos = 0;
             char difficulty = '\0';
+            String[] difficultéPossibles = { "  A) Facile", "  B) Intermédiaire", "  C) Difficile", "  D) Extrême" };
 
-            while (difficulty != 'A' && difficulty != 'B' && difficulty != 'C' && difficulty != 'D' && 
-                   difficulty != 'a' && difficulty != 'b' && difficulty != 'c' && difficulty != 'd')
+            while (difficulty != 'e')
             {
-                Console.WriteLine("Veuillez choisir le niveau de difficulté : \n");
-                Console.WriteLine("  A) Facile");
-                Console.WriteLine("  B) Intermédiaire");
-                Console.WriteLine("  C) Difficile");
-                Console.WriteLine("  D) Extrême");
-                Console.WriteLine("");
-                Console.Write("Choix > ");
-                difficulty = Console.ReadKey().KeyChar;
+                //Réaffichage du menu pour permettre au curseur de bouger sans influencer le reste de l'affichage.
+                Console.Clear();
+                showStartMessage();
+                showPlayerName();
+
+
+                if (curseurPos == 0)
+                {
+                    Console.WriteLine("Veuillez choisir le niveau de difficulté : \n");
+                    Console.Write(" >"); curseur.draw(difficultéPossibles[0]); Console.Write("\n");
+                    Console.WriteLine("  " + difficultéPossibles[1]);
+                    Console.WriteLine("  " + difficultéPossibles[2]);
+                    Console.WriteLine("  " + difficultéPossibles[3]);
+                    Console.WriteLine("");
+                }
+                if (curseurPos == 1)
+                {
+                    Console.WriteLine("Veuillez choisir le niveau de difficulté : \n");
+                    Console.WriteLine("  " + difficultéPossibles[0]);
+                    Console.Write(" >"); curseur.draw(difficultéPossibles[1]); Console.Write("\n");
+                    Console.WriteLine("  " + difficultéPossibles[2]);
+                    Console.WriteLine("  " + difficultéPossibles[3]);
+                    Console.WriteLine("");
+                }
+                if (curseurPos == 2)
+                {
+                    Console.WriteLine("Veuillez choisir le niveau de difficulté : \n");
+                    Console.WriteLine("  " + difficultéPossibles[0]);
+                    Console.WriteLine("  " + difficultéPossibles[1]);
+                    Console.Write(" >"); curseur.draw(difficultéPossibles[2]); Console.Write("\n");
+                    Console.WriteLine("  " + difficultéPossibles[3]);
+                    Console.WriteLine("");
+                }
+                if (curseurPos == 3)
+                {
+                    Console.WriteLine("Veuillez choisir le niveau de difficulté : \n");
+                    Console.WriteLine("  " + difficultéPossibles[0]);
+                    Console.WriteLine("  " + difficultéPossibles[1]);
+                    Console.WriteLine("  " + difficultéPossibles[2]);
+                    Console.Write(" >"); curseur.draw(difficultéPossibles[3]); Console.Write("\n");
+                    Console.WriteLine("");
+                }
+
+                difficulty = m_keyListener.listen();
+
+                switch (difficulty)
+                {
+                    case 'u':
+                        if (curseurPos - 1 >= 0)
+                        {
+                            curseurPos--;
+                        }
+                        break;
+                    case 'd':
+                        if (curseurPos + 1 < difficultéPossibles.Length)
+                        {
+                            curseurPos++;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
             Console.WriteLine("");
-            switch (difficulty)
+            switch (curseurPos)
             {
-                case 'a':
-                case 'A':
+                case 0:
+                    Console.Write("Choix > A");
                     Console.WriteLine("Vous avez choisi facile.");
                     return 'A';
                     break;
-                case 'b':
-                case 'B':
+                case 1:
+                    Console.Write("Choix > B");
                     Console.WriteLine("Vous avez choisi intermédiaire.");
                     return 'B';
                     break;
-                case 'c':
-                case 'C':
+                case 2:
+                    Console.Write("Choix > C");
                     Console.WriteLine("Vous avez choisi difficile.");
                     return 'C';
                     break;
-                case 'd':
-                case 'D':
+                case 3:
+                    Console.Write("Choix > D");
                     Console.WriteLine("Vous avez choisi extrême!");
-                    return 'D';
-                    break;
-
-                default:
+                    return 'C';
                     break;
             }
 
+            Console.WriteLine("");
             return '\0';
         }
 

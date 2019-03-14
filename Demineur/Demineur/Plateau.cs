@@ -16,6 +16,7 @@ namespace Demineur
         private int m_colonneCurseur;     //La colonne ou le curseur est présentement situé.
         private int m_moveCount;         //Compteur du nombre de coups effectués.
 
+
         //Constructeurs...
 
         //Constructeur par défault.
@@ -84,7 +85,7 @@ namespace Demineur
             for (int i = 0; i < m_cases.Length; i++)
             {
                 m_cases[i] = new Case();
-                m_cases[i].contenu = "·";
+                m_cases[i].contenu = " ";  //"·"
             }
 
             //Ajout du curseur à l'endroit spécifié.
@@ -330,6 +331,7 @@ namespace Demineur
                 if (m_cases[rdn1].contenu != "B")
                 {
                     m_cases[rdn1].contenu = "B";
+                    m_cases[rdn1].setCouleur(Case.m_couleursPossibles.Red);
                     m_cases[rdn1].isMine = true;
                     nbMine--;
                 }
@@ -455,6 +457,7 @@ namespace Demineur
                 else
                 {
                     getCase(ligne, colonne).contenu = " ";
+                    getCase(ligne, colonne).setCouleur(Case.m_couleursPossibles.Black);
                 }
                 getCase(ligne, colonne).isOpen = true;
 
@@ -464,17 +467,20 @@ namespace Demineur
                     {
                         for (int currentCol = colonne - 1; currentCol <= colonne + 1; currentCol++)
                         {
-                            if (getCase(currentLine, currentCol) != null)
-                            {
-                                if (!(currentLine == ligne && currentCol == colonne))
+                            //if (currentLine == ligne || currentCol == colonne)
+                            //{
+                                if (getCase(currentLine, currentCol) != null)
                                 {
-                                    if (getCase(currentLine, currentCol).isOpen == false)
+                                    if (!(currentLine == ligne && currentCol == colonne))
                                     {
-                                        ouvrirCase(currentLine, currentCol);
-                                    }
+                                        if (getCase(currentLine, currentCol).isOpen == false)
+                                        {
+                                            ouvrirCase(currentLine, currentCol);
+                                        }
 
+                                    }
                                 }
-                            }
+                            //}
                         }
                     }
                 }

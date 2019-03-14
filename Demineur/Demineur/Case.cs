@@ -14,6 +14,8 @@ namespace Demineur
         private static int m_count = 0;
         private bool m_isMine;
         private bool m_isOpen;
+        private char m_couleur;         //La couleur du plateau.
+        public enum m_couleursPossibles { Black, Gray, Red }; //Couleur possible de la case
 
         //Constructeurs...
 
@@ -22,10 +24,31 @@ namespace Demineur
             this.m_curseur = null;
             this.m_contenu = "\0";
             this.m_isOpen = false;
+            this.m_couleur = 'G';
             m_count++;
         }
 
         //Accesseurs...
+
+        //Change la couleur de fond de la case pour un des valeur possible
+        public void setCouleur(m_couleursPossibles couleur)
+        {
+            switch (couleur)
+            {
+                case m_couleursPossibles.Black:
+                    this.m_couleur = 'B';
+                    break;
+                case m_couleursPossibles.Gray:
+                    this.m_couleur = 'G';
+                    break;
+                case m_couleursPossibles.Red:
+                    this.m_couleur = 'R';
+                    break;
+                default:
+                    this.m_couleur = 'B';
+                    break;
+            }
+        }
 
         //TODO.. Verif de la donnée envoyé
         public string contenu
@@ -59,7 +82,7 @@ namespace Demineur
         //Ajoute un curseur à la case.
         public void addCursor()
         {
-            this.m_curseur = new Curseur(Curseur.m_couleursPossibles.White);
+            this.m_curseur = new Curseur(Curseur.m_couleursPossibles.Green);
         }
 
         //Supprime le curseur de la case.
@@ -83,11 +106,15 @@ namespace Demineur
             {
                 if (endOfLine)
                 {
-                    Console.WriteLine(" " + getContenu() + " |");
+                    Console.Write(" ");
+                    writeContent();
+                    Console.WriteLine(" |");
                 }
                 else
                 {
-                    Console.Write(" " + getContenu() + " |");
+                    Console.Write(" ");
+                    writeContent();
+                    Console.Write(" |");
                 }
             }
             else
@@ -106,6 +133,36 @@ namespace Demineur
                 }
             }
 
+        }
+
+        public void writeContent()
+        {
+            switch (m_couleur)
+            {
+                case 'B':
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(contenu);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case 'G':
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write(contenu);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case 'R':
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(contenu);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                default:
+                    break;
+            }
         }
 
 

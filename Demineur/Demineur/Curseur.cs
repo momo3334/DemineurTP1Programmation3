@@ -18,7 +18,7 @@ namespace Demineur
         //Crer un curseur de la couleur par défault (blanc).
         public Curseur()
         {
-            this.m_couleur = 'W';
+            this.m_couleur = 'G';
         }
 
         //Crer un curseur de la couleur spécifié.

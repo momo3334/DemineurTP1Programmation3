@@ -3,11 +3,77 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+using System.IO;
 
 namespace Demineur
 {
     class UI
     {
+        //THIS IS WORK IN PROGRESS...
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern SafeFileHandle CreateFile(
+        string fileName,
+        [MarshalAs(UnmanagedType.U4)] uint fileAccess,
+        [MarshalAs(UnmanagedType.U4)] uint fileShare,
+        IntPtr securityAttributes,
+        [MarshalAs(UnmanagedType.U4)] FileMode creationDisposition,
+        [MarshalAs(UnmanagedType.U4)] int flags,
+        IntPtr template);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr GetStdHandle(int nStdHandle);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool WriteConsoleOutput(
+          SafeFileHandle hConsoleOutput,
+          CharInfo[] lpBuffer,
+          Coord dwBufferSize,
+          Coord dwBufferCoord,
+          ref SmallRect lpWriteRegion);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Coord
+        {
+            public short X;
+            public short Y;
+
+            public Coord(short X, short Y)
+            {
+                this.X = X;
+                this.Y = Y;
+            }
+        };
+
+        //[StructLayout(LayoutKind.Explicit)]
+        //public struct CharUnion
+        //{
+        //    [FieldOffset(0)] public char UnicodeChar;
+        //    [FieldOffset(0)] public byte AsciiChar;
+        //}
+
+        //[StructLayout(LayoutKind.Explicit)]
+        //public struct CharInfo
+        //{
+        //    [FieldOffset(0)] public CharUnion Char;
+        //    [FieldOffset(2)] public short Attributes;
+        //}
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SmallRect
+        {
+            public short Left;
+            public short Top;
+            public short Right;
+            public short Bottom;
+        }
+
+
+
+        //ENDS OF WORK IN PROGRESS...
+
+
         //Données membres...
         public KeyListener m_keyListener;
         private String m_nomJoueur;
@@ -16,7 +82,7 @@ namespace Demineur
 
         public UI()
         {
-            this.m_keyListener =  new KeyListener();
+            this.m_keyListener = new KeyListener();
             this.m_nomJoueur = "Aucun nom!";
         }
 
@@ -46,7 +112,14 @@ namespace Demineur
 
         public void showPlayerName()
         {
-            Console.WriteLine("Nom du joueur:" + m_nomJoueur);
+            Console.WriteLine("+-------------------------------------------------+");
+            Console.Write("| Nom du joueur:" + m_nomJoueur );
+            for (int i = 0; i < 34 - m_nomJoueur.Length; i++)
+            {
+                Console.Write(" ");
+            }
+            Console.WriteLine("|");
+            Console.WriteLine("+-------------------------------------------------+");
         }
 
         public void showDifficulty(char difficulty)
@@ -76,7 +149,14 @@ namespace Demineur
 
         public void showBoardSize(int size)
         {
-            Console.WriteLine("Grosseur du plateau : " + size + " cases.");
+            Console.WriteLine("+-------------------------------------------------+");
+            Console.Write("| Grosseur du plateau : " + size + " cases.");
+            for (int i = 0; i < 19 - size.ToString().Length; i++)
+            {
+                Console.Write(" ");
+            }
+            Console.WriteLine("|");
+            Console.WriteLine("+-------------------------------------------------+");
         }
 
         public char askSize()
@@ -85,7 +165,7 @@ namespace Demineur
             int curseurPos = 0;
             char size = '\0';
 
-            String[] grosseurPossibles = { "A) Petit", "B) Moyen", "C) Grand"};
+            String[] grosseurPossibles = { "A) Petit", "B) Moyen", "C) Grand" };
 
 
 
@@ -274,5 +354,60 @@ namespace Demineur
             char move = this.m_keyListener.listen();
             return move;
         }
+
+        public void showUnfoundMineCount(int mineLeft)
+        {
+            Console.WriteLine("+-------------------------------------------------+");
+            Console.Write("| Mines restantes :" + mineLeft + " mines.");
+            for (int i = 0; i < 24 - mineLeft.ToString().Length; i++)
+            {
+                Console.Write(" ");
+            }
+            Console.WriteLine("|");
+            Console.WriteLine("+-------------------------------------------------+");
+        }
+
+
+        public void showDeathMessage()
+        {
+            Console.WriteLine("\nVous avez explosé!! Meilleure chance la prochaine fois...");
+            Console.ReadKey();
+        }
+
+        public void showWinMessage()
+        {
+            Console.WriteLine("\nFélicitation vous avez trouvé toute les bombes! Bien joué!");
+            Console.ReadKey();
+        }
+
+        //TESTING
+        //Les dimensions du tableau sont interprété en nombre de caractères.
+        public void test(CharInfo[] boardToDraw, int largeur, int hauteur)
+        {
+            SafeFileHandle h = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
+
+
+
+            if (!h.IsInvalid)
+            {
+                SmallRect rect = new SmallRect() { Left = 0, Top = 0, Right = (short)largeur, Bottom = (short)hauteur };
+
+
+
+                for (int i = 0; i < boardToDraw.Length; ++i)
+                {
+
+                   // boardToDraw[i].Char.AsciiChar = (byte)testC[i];
+                }
+
+                bool b = WriteConsoleOutput(h, boardToDraw,
+                  new Coord() { X = (short) largeur, Y = (short) hauteur },
+                  new Coord() { X = 0, Y = 0 },
+                ref rect);
+
+            }
+            Console.SetCursorPosition(0, hauteur + 1);
+        }
+        //ENDS OF TESTING..
     }
 }

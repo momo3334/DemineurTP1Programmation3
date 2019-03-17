@@ -9,49 +9,106 @@ namespace Demineur
     class Case
     {
         //Données membres...
-        private String m_contenu;
+        private char m_contenu;
         private Curseur m_curseur;
         private static int m_count = 0;
         private bool m_isMine;
         private bool m_isOpen;
-        private char m_couleur;         //La couleur du plateau.
-        public enum m_couleursPossibles { Black, Gray, Red }; //Couleur possible de la case
+        private short m_couleur;          //La couleur du plateau.
+        private short m_couleurFond;     //La couleur de fond de la case.
+        public  enum  m_couleursPossibles { Black = 0, Gray = 7, Red = 12, Blue = 9, Green = 10, Magenta = 13, Yellow = 14, Cyan = 11, White = 15, DarkYellow = 6}; //Couleur possible de la case
 
         //Constructeurs...
 
         public Case()
         {
             this.m_curseur = null;
-            this.m_contenu = "\0";
+            this.m_contenu = '\0';
             this.m_isOpen = false;
-            this.m_couleur = 'G';
+            this.m_couleur = (short)m_couleursPossibles.White;
+            this.m_couleurFond = 7;
             m_count++;
         }
 
         //Accesseurs...
 
+
+            //JAI PAS FINI LE SWITCH DES COULEURS!!!!!!!!
+
+
         //Change la couleur de fond de la case pour un des valeur possible
+        public void setCouleurFond(m_couleursPossibles couleur)
+        {
+            m_couleurFond = (short)couleur;
+            //switch (couleur)
+            //{
+            //    case m_couleursPossibles.Black:
+            //        this.m_couleurFond = 0;
+            //        break;
+            //    case m_couleursPossibles.Gray:
+            //        this.m_couleurFond = 7;
+            //        break;
+            //    case m_couleursPossibles.Green:
+            //        this.m_couleurFond = 10;
+            //        break;
+            //    case m_couleursPossibles.Blue:
+            //        this.m_couleurFond = 9;
+            //        break;
+            //    case m_couleursPossibles.Cyan:
+            //        this.m_couleurFond = 11;
+            //        break;
+            //    case m_couleursPossibles.Red:
+            //        this.m_couleurFond = 12;
+            //        break;
+            //    default:
+            //        this.m_couleurFond = 9;
+            //        break;
+            //}
+        }
+
+        //Retourne la couleur de fond de la case pour un des valeur possible
+        public short getCouleurFond()
+        {
+            return m_couleurFond;
+        }
+
         public void setCouleur(m_couleursPossibles couleur)
         {
             switch (couleur)
             {
                 case m_couleursPossibles.Black:
-                    this.m_couleur = 'B';
+                    this.m_couleur = 9;
                     break;
                 case m_couleursPossibles.Gray:
-                    this.m_couleur = 'G';
+                    this.m_couleur = 7;
+                    break;
+                case m_couleursPossibles.Green:
+                    this.m_couleur = 10;
+                    break;
+                case m_couleursPossibles.Blue:
+                    this.m_couleur = 9;
+                    break;
+                case m_couleursPossibles.Cyan:
+                    this.m_couleur = 11;
                     break;
                 case m_couleursPossibles.Red:
-                    this.m_couleur = 'R';
+                    this.m_couleur = 12;
                     break;
                 default:
-                    this.m_couleur = 'B';
+                    this.m_couleur = 9;
                     break;
             }
         }
 
+
+        //Retourne la couleur du contenu de la case pour un des valeur possible
+        public short getCouleur()
+        {
+            return m_couleur;
+        }
+
         //TODO.. Verif de la donnée envoyé
-        public string contenu
+        public char contenu
         {
             get { return m_contenu; }
             set { m_contenu = value; }
@@ -69,7 +126,7 @@ namespace Demineur
             set { m_isMine = value; }
         }
 
-        public String getContenu()
+        public char getContenu()
         {
             return this.m_contenu;
         }
@@ -97,6 +154,41 @@ namespace Demineur
         public void updateCursor()
         {
             m_curseur.draw(m_contenu);
+        }
+
+        public void setContenu(int mine)
+        {
+            m_contenu = (char)(48 + mine); //Converting the returned int to a char representation(0 = 48 in ASCII table. So 48(0) + the number of mine touching this case.)
+
+            switch (mine)
+            {
+                case 1:
+                    setCouleur(m_couleursPossibles.Blue);
+                    break;
+                case 2:
+                    setCouleur(m_couleursPossibles.Green);
+                    break;
+                case 3:
+                    setCouleur(m_couleursPossibles.Red);
+                    break;
+                case 4:
+                    setCouleur(m_couleursPossibles.Magenta);
+                    break;
+                case 5:
+                    setCouleur(m_couleursPossibles.Yellow);
+                    break;
+                case 6:
+                    setCouleur(m_couleursPossibles.Cyan);
+                    break;
+                case 7:
+                    setCouleur(m_couleursPossibles.DarkYellow);
+                    break;
+                case 8:
+                    setCouleur(m_couleursPossibles.Gray);
+                    break;
+                default:
+                    break;
+            }
         }
 
         //Draws the content this case.
@@ -137,23 +229,23 @@ namespace Demineur
 
         public void writeContent()
         {
-            switch (m_couleur)
+            switch (m_couleurFond)
             {
-                case 'B':
+                case (short)m_couleursPossibles.Black:
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(contenu);
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
-                case 'G':
+                case (short)m_couleursPossibles.Gray:
                     Console.BackgroundColor = ConsoleColor.Gray;
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.Write(contenu);
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
-                case 'R':
+                case (short)m_couleursPossibles.Red:
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(contenu);

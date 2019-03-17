@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Demineur</RootNamespace>
     <AssemblyName>Demineur</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -44,7 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Case.cs" />
+    <Compile Include="CharUnion.cs" />
     <Compile Include="KeyListener.cs" />
+    <Compile Include="CharInfo.cs" />
     <Compile Include="UI.cs" />
     <Compile Include="Curseur.cs" />
     <Compile Include="Demineur.cs" />

@@ -26,3 +26,10 @@ P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\De
 P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\DemineurTP1Programmation3\Demineur\Demineur\obj\Debug\Demineur.csproj.CoreCompileInputs.cache
 P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\DemineurTP1Programmation3\Demineur\Demineur\obj\Debug\Demineur.exe
 P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\DemineurTP1Programmation3\Demineur\Demineur\obj\Debug\Demineur.pdb
+E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\obj\Debug\Demineur.csprojAssemblyReference.cache
+E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\obj\Debug\Demineur.csproj.CoreCompileInputs.cache
+E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\obj\Debug\Demineur.exe
+E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\obj\Debug\Demineur.pdb
+E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\bin\Debug\Demineur.exe.config
+E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\bin\Debug\Demineur.exe
+E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\bin\Debug\Demineur.pdb

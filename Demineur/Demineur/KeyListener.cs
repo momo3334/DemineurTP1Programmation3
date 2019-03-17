@@ -109,6 +109,7 @@ namespace Demineur
                 case ConsoleKey.L:
                     break;
                 case ConsoleKey.M:
+                    return 'm';
                     break;
                 case ConsoleKey.N:
                     break;

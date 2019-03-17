@@ -55,6 +55,37 @@ namespace Demineur
         //Méthodes...
 
         //Dessine le curseur pour mettre en évidence la valeur envoyer en argument. 
+        public void draw(char content)
+        {
+            switch (m_couleur)
+            {
+                case 'W':
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write(content);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case 'G':
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(content);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case 'R':
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(content);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //Dessine le curseur pour mettre en évidence la valeur envoyer en argument. 
         public void draw(String content)
         {
             switch (m_couleur)

@@ -15,6 +15,7 @@ namespace Demineur
         private int m_ligneCurseur;        //La ligne ou le curseur est présentement situé.
         private int m_colonneCurseur;     //La colonne ou le curseur est présentement situé.
         private int m_moveCount;         //Compteur du nombre de coups effectués.
+        private int m_nbMine;     //Le nombre de mines restantes dans le plateau.
 
 
         //Constructeurs...
@@ -85,7 +86,7 @@ namespace Demineur
             for (int i = 0; i < m_cases.Length; i++)
             {
                 m_cases[i] = new Case();
-                m_cases[i].contenu = " ";  //"·"
+                m_cases[i].contenu = ' ';  //"·"
             }
 
             //Ajout du curseur à l'endroit spécifié.
@@ -94,10 +95,16 @@ namespace Demineur
 
         //Accesseurs...
 
-       public int moveCount
+        public int moveCount
         {
             set { m_moveCount = value; }
             get { return m_moveCount; }
+        }
+
+        public int mineRestante
+        {
+            set { m_nbMine = value; }
+            get { return m_nbMine; }
         }
 
         public int getLargeur()
@@ -145,6 +152,15 @@ namespace Demineur
                 this.m_colonneCurseur = colonneCurseur;
             }
         }
+
+
+        public Case[] cases
+        {
+            get { return m_cases; }
+            set { m_cases = value; }
+        }
+
+
         //Méthodes...
 
         public Case getCase(int line, int col)
@@ -187,7 +203,6 @@ namespace Demineur
                         break;
                 }
                 getCase(m_ligneCurseur, m_colonneCurseur).addCursor();
-                drawBoard();
             }
         }
 
@@ -296,8 +311,202 @@ namespace Demineur
 
         }
 
+        public CharInfo[] toCharinfoArray()
+        {
+            bool pairRowNumber;
+            int line = (m_largeur * 4) + 2;
+            int col = (m_hauteur * 2) + 1;
 
-        public void disperserMine(char difficulte) {
+            CharInfo[] convertedBoard = new CharInfo[line * col]; //Creating a CharInfo array that matches the size of the board
+
+            for (int i = 0; i < (m_hauteur * 2) + 1; i++)
+            {
+                pairRowNumber = i % 2 == 0;
+
+
+                //Only on odd line numbers
+                if (!pairRowNumber)
+                {
+                    CharInfo c = new CharInfo();
+                    c.Attributes = (short)(15 | 0 << 4);
+                    c.Char.AsciiChar = (byte)'|';
+                    convertedBoard[i * line] = c;
+                }
+                //Only on pair line numbers
+                else
+                {
+                    //Console.Write("|");
+                    CharInfo c = new CharInfo();
+                    c.Attributes = (short)(15 | 0 << 4);
+                    c.Char.AsciiChar = (byte)'+';
+                    convertedBoard[(i * line)] = c;
+                }
+
+                for (int j = 0; j < m_largeur; j++)
+                {
+                    //Only on odd line numbers
+                    if (!pairRowNumber)
+                    {
+                        if (j + 1 == m_largeur)
+                        {
+                            char[] convString;
+
+                            if ((i / 2) == m_ligneCurseur && j == m_colonneCurseur)
+                            {
+                                convString = new char[] { '[', '0', ']', '|', '\n' };
+                            }
+                            else
+                            {
+                                convString = new char[] { ' ', '0', ' ', '|', '\n' };
+                            }
+
+                            convString[1] = getCase((i / 2), j).contenu;
+                            short couleurFond = getCase((i / 2), j).getCouleurFond();
+                            short couleur = getCase((i / 2), j).getCouleur();
+
+
+                            for (int k = 0; k < convString.Length - 1; k++)
+                            {
+                                CharInfo c = new CharInfo();
+
+                                //for a different type of cursor...
+                                //if ((i / 2) == m_ligneCurseur && j == m_colonneCurseur && k == 1)
+                                //{
+                                //    c.Attributes = (short)(15 | (10 << 4));
+                                //}
+                                //else if (k == 1)
+                                //{
+                                //    c.Attributes = (short)(couleur | (couleurFond << 4));
+                                //}
+                                //else
+                                //{
+                                //    c.Attributes = (short)(15 | (0 << 4));
+                                //}
+
+                                if (k == 1)
+                                {
+                                    c.Attributes = (short)(couleur | (couleurFond << 4));
+                                }
+                                else if (k == 0 || k == 2)
+                                {
+                                    c.Attributes = (short)(10 | (0 << 4));
+                                }
+                                else
+                                {
+                                    c.Attributes = (short)(15 | (0 << 4));
+                                }
+                                c.Char.AsciiChar = (byte)convString[k];
+                                convertedBoard[(i * line) + (j * (convString.Length - 1)) + (k + 1)] = c;
+                            }
+
+
+                            CharInfo lineBreak = new CharInfo();
+                            lineBreak.Attributes = 0;
+                            lineBreak.Char.AsciiChar = (byte)'\n';
+                            convertedBoard[(i * line) + (j * (convString.Length)) + 1] = lineBreak;
+                        }
+
+                        else
+                        {
+                            char[] convString;
+
+                            if ((i / 2) == m_ligneCurseur && j == m_colonneCurseur)
+                            {
+                                convString = new char[] { '[', '0', ']', '|' };
+                            }
+                            else
+                            {
+                                convString = new char[] { ' ', '0', ' ', '|' };
+                            }
+
+                            convString[1] = getCase((i / 2), j).contenu;
+                            short couleurFond = getCase((i / 2), j).getCouleurFond();
+                            short couleur = getCase((i / 2), j).getCouleur();
+
+                            for (int k = 0; k < convString.Length; k++)
+                            {
+                                CharInfo c = new CharInfo();
+
+                                //for a different type of cursor...
+                                //if ((i / 2) == m_ligneCurseur && j == m_colonneCurseur && k == 1) 
+                                //{
+                                //    c.Attributes = (short)(15 | (10 << 4));
+                                //}
+                                //else if (k == 1)
+                                //{
+                                //    c.Attributes = (short)(couleur | (couleurFond << 4));
+                                //}
+                                //else
+                                //{
+                                //    c.Attributes = (short)(15 | (0 << 4));
+                                //}
+
+
+                                if (k == 1)
+                                {
+                                    c.Attributes = (short)(couleur | (couleurFond << 4));
+                                }
+                                else if (k == 0 || k == 2)
+                                {
+                                    c.Attributes = (short)(10 | (0 << 4));
+                                }
+                                else
+                                {
+                                    c.Attributes = (short)(15 | (0 << 4));
+                                }
+                                c.Char.AsciiChar = (byte)convString[k];
+                                convertedBoard[(i * line) + (j * convString.Length) + (k + 1)] = c;
+                            }
+                        }
+                    }
+
+                    //Only on pair line numbers
+                    else
+                    {
+                        if (j + 1 == m_largeur)
+                        {
+                            String toWrite = "---+";
+                            char[] convString = toWrite.ToCharArray();
+                            for (int k = 0; k < toWrite.Length; k++)
+                            {
+                                CharInfo c = new CharInfo();
+                                c.Attributes = (short)(15 | 0 << 4);
+                                c.Char.AsciiChar = (byte)convString[k];
+                                convertedBoard[(i * line) + (j * toWrite.Length) + (k + 1)] = c;
+                            }
+
+                            CharInfo lineBreak = new CharInfo();
+                            lineBreak.Attributes = 0;
+                            lineBreak.Char.AsciiChar = (byte)'\n';
+                            convertedBoard[(i * line) + ((j + 1) * toWrite.Length) + 1] = lineBreak;
+                            //convertedBoard[()];
+                            //Console.WriteLine("---+");
+                        }
+                        else
+                        {
+                            String toWrite = "---+";
+                            char[] convString = toWrite.ToCharArray();
+                            for (int k = 0; k < toWrite.Length; k++)
+                            {
+                                CharInfo c = new CharInfo();
+                                c.Attributes = (short)(15 | 0 << 4);
+                                c.Char.AsciiChar = (byte)convString[k];
+                                convertedBoard[(i * line) + (j * toWrite.Length) + (k + 1)] = c;
+                            }
+                            //Console.Write("---+");
+                        }
+                    }
+
+                }
+
+            }
+
+            return convertedBoard;
+        }
+
+
+        public void disperserMine(char difficulte)
+        {
             switch (difficulte)
             {
                 case 'A':
@@ -323,24 +532,24 @@ namespace Demineur
         //Divise le plateau en quatre section et met 1/4 des mines disponible dans chacune des quatres parties.
         public void disperserMine(int nbMine)
         {
-
+            m_nbMine = nbMine;
             Random rdn = new Random(DateTime.Now.Millisecond);
             while (nbMine > 0)
             {
                 int rdn1 = rdn.Next(0, m_cases.Length);
-                if (m_cases[rdn1].contenu != "B")
+                if (m_cases[rdn1].contenu != 'B')
                 {
-                    m_cases[rdn1].contenu = "B";
+                    //m_cases[rdn1].contenu = 'B';
                     m_cases[rdn1].setCouleur(Case.m_couleursPossibles.Red);
                     m_cases[rdn1].isMine = true;
                     nbMine--;
                 }
 
             }
-            
 
 
-            
+
+
 
 
 
@@ -438,37 +647,42 @@ namespace Demineur
 
         public void ouvrirCase(int ligne, int colonne)
         {
-            while (getCase(ligne, colonne) != null && getCase(ligne, colonne).isMine && m_moveCount == 1)
-            {
-                getCase(ligne, colonne).isMine = false;
-                disperserMine(1);
-            }
-
-
-            if (getCase(ligne, colonne).isMine == false)
+            if (!(getCase(ligne, colonne).isOpen))
             {
 
-                int mineTouchingCount = countSurrondingMines(ligne, colonne);
 
-                if (mineTouchingCount != 0)
+                while (getCase(ligne, colonne) != null && getCase(ligne, colonne).isMine && m_moveCount == 1)
                 {
-                    getCase(ligne, colonne).contenu = mineTouchingCount.ToString();
+                    getCase(ligne, colonne).isMine = false;
+                    disperserMine(1);
                 }
-                else
-                {
-                    getCase(ligne, colonne).contenu = " ";
-                    getCase(ligne, colonne).setCouleur(Case.m_couleursPossibles.Black);
-                }
-                getCase(ligne, colonne).isOpen = true;
 
-                if (mineTouchingCount == 0)
+
+                if (getCase(ligne, colonne).isMine == false)
                 {
-                    for (int currentLine = ligne - 1; currentLine <= ligne + 1; currentLine++)
+
+                    int mineTouchingCount = countSurrondingMines(ligne, colonne);
+
+                    if (mineTouchingCount != 0)
                     {
-                        for (int currentCol = colonne - 1; currentCol <= colonne + 1; currentCol++)
+                        getCase(ligne, colonne).setContenu(mineTouchingCount);
+                        getCase(ligne, colonne).setCouleurFond(Case.m_couleursPossibles.Black);
+                    }
+                    else
+                    {
+                        getCase(ligne, colonne).contenu = ' ';
+                        getCase(ligne, colonne).setCouleurFond(Case.m_couleursPossibles.Black);
+                    }
+                    getCase(ligne, colonne).isOpen = true;
+
+                    if (mineTouchingCount == 0)
+                    {
+                        for (int currentLine = ligne - 1; currentLine <= ligne + 1; currentLine++)
                         {
-                            //if (currentLine == ligne || currentCol == colonne)
-                            //{
+                            for (int currentCol = colonne - 1; currentCol <= colonne + 1; currentCol++)
+                            {
+                                //if (currentLine == ligne || currentCol == colonne)
+                                //{
                                 if (getCase(currentLine, currentCol) != null)
                                 {
                                     if (!(currentLine == ligne && currentCol == colonne))
@@ -480,23 +694,76 @@ namespace Demineur
 
                                     }
                                 }
-                            //}
+                                //}
+                            }
                         }
                     }
                 }
             }
-
-
-
         }
 
-        public void move()
+        public bool checkIfMarked()
         {
-            m_moveCount++;
-            ouvrirCase(m_ligneCurseur, m_colonneCurseur);
-            drawBoard();
-
+            Case movedCase = getCase(m_ligneCurseur, m_colonneCurseur);
+            if (movedCase.contenu == '!')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
+        public bool move(char input)
+        {
+            Case movedCase = getCase(m_ligneCurseur, m_colonneCurseur);
+            switch (input)
+            {
+                case 'e':
+                    m_moveCount++;
+                    if (!(movedCase.isMine))
+                    {
+                        ouvrirCase(m_ligneCurseur, m_colonneCurseur);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
+                case 'm':
+
+                    m_moveCount++;
+
+                    if (checkIfMarked() && movedCase.isMine)
+                    {
+                        movedCase.contenu = ' ';
+                        m_nbMine++;
+                    }
+                    else if (!checkIfMarked() && movedCase.isMine)
+                    {
+                        movedCase.contenu = '!';
+                        m_nbMine--;
+                    }
+                    else if (checkIfMarked())
+                    {
+                        movedCase.contenu = ' ';
+                    }
+                    else
+                    {
+                        movedCase.contenu = '!';
+                    }
+
+
+                    movedCase.setCouleur(Case.m_couleursPossibles.Red);
+                    return true;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+
+        }
     }
 }

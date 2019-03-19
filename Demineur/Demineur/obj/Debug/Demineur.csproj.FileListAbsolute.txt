@@ -33,3 +33,11 @@ E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_21481
 E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\bin\Debug\Demineur.exe.config
 E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\bin\Debug\Demineur.exe
 E:\documents-datadrive - Copie (2)\download.msi.com\selected_files_2019314_214817\Demineur\Demineur\bin\Debug\Demineur.pdb
+C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\bin\Debug\Demineur.exe.config
+C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\bin\Debug\Demineur.exe
+C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\bin\Debug\Demineur.pdb
+C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\obj\Debug\Demineur.csprojAssemblyReference.cache
+C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\obj\Debug\Demineur.csproj.CoreCompileInputs.cache
+C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\obj\Debug\Demineur.exe
+C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\obj\Debug\Demineur.pdb
+C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\obj\Debug\Demineur.csproj.CopyComplete

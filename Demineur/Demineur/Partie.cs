@@ -119,6 +119,8 @@ namespace Demineur
             else
             {
                 m_UI.showDeathMessage();
+                Solver s = new Solver();
+                s.getDLL(m_plateau.convertToString());
             }
 
         }

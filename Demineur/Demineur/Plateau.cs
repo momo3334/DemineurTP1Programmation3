@@ -15,7 +15,7 @@ namespace Demineur
         private int m_ligneCurseur;        //La ligne ou le curseur est présentement situé.
         private int m_colonneCurseur;     //La colonne ou le curseur est présentement situé.
         private int m_moveCount;         //Compteur du nombre de coups effectués.
-        private int m_nbMine;     //Le nombre de mines restantes dans le plateau.
+        private int m_nbMine;           //Le nombre de mines restantes dans le plateau.
 
 
         //Constructeurs...
@@ -504,6 +504,25 @@ namespace Demineur
             return convertedBoard;
         }
 
+        public String convertToString() {
+            string converted = "";
+            StringBuilder sBuilder = new StringBuilder(converted);
+            foreach (Case cell in m_cases)
+            {
+                if (cell.isOpen && cell.contenu == ' ')
+                {
+                    sBuilder.Append("0");
+                }
+                else
+                {
+                    sBuilder.Append(cell.contenu);
+                }
+
+            }
+            converted = sBuilder.ToString();
+
+            return converted;
+        }
 
         public void disperserMine(char difficulte)
         {

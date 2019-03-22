@@ -27,6 +27,7 @@ namespace Demineur
             this.m_colonneCurseur = 0;
             this.m_hauteur = 6;
             this.m_largeur = 6;
+            this.m_moveCount = 0;
             this.m_cases = new Case[m_largeur * m_hauteur];
 
             for (int i = 0; i < m_cases.Length; i++)
@@ -81,6 +82,7 @@ namespace Demineur
 
             this.m_ligneCurseur = 0;
             this.m_colonneCurseur = 0;
+            this.m_moveCount = 0;
             this.m_cases = new Case[m_largeur * m_hauteur];
 
             for (int i = 0; i < m_cases.Length; i++)
@@ -548,19 +550,38 @@ namespace Demineur
 
         }
 
-        //Divise le plateau en quatre section et met 1/4 des mines disponible dans chacune des quatres parties.
-        public void disperserMine(int nbMine)
+        public void deplacerMine(int nbMine)
         {
             m_nbMine = nbMine;
             Random rdn = new Random(DateTime.Now.Millisecond);
             while (nbMine > 0)
             {
                 int rdn1 = rdn.Next(0, m_cases.Length);
-                if (m_cases[rdn1].contenu != 'B')
+                if (m_cases[rdn1].isMine == false && rdn1 != ((m_ligneCurseur * m_largeur) + m_colonneCurseur))
                 {
                     //m_cases[rdn1].contenu = 'B';
                     m_cases[rdn1].setCouleur(Case.m_couleursPossibles.Red);
                     m_cases[rdn1].isMine = true;
+                    nbMine--;
+                }
+
+            }
+        }
+
+            //Divise le plateau en quatre section et met 1/4 des mines disponible dans chacune des quatres parties.
+            public void disperserMine(int nbMine)
+        {
+            m_nbMine = nbMine;
+            Random rdn = new Random(DateTime.Now.Millisecond);
+            while (nbMine > 0)
+            {
+                int rdn1 = rdn.Next(0, m_cases.Length);
+                if (m_cases[rdn1].isMine != true)
+                {
+                    //m_cases[rdn1].contenu = 'B';
+                    m_cases[rdn1].setCouleur(Case.m_couleursPossibles.Red);
+                    m_cases[rdn1].isMine = true;
+                   // m_cases[rdn1].contenu = 'B';
                     nbMine--;
                 }
 
@@ -746,14 +767,19 @@ namespace Demineur
                         ouvrirCase(m_ligneCurseur, m_colonneCurseur);
                         return true;
                     }
+                    else if (m_moveCount == 1)
+                    {
+                        deplacerMine(1);
+                        getCase(m_ligneCurseur, m_colonneCurseur);
+                        ouvrirCase(m_ligneCurseur, m_colonneCurseur);
+                        return true;
+                    }
                     else
                     {
                         return false;
                     }
                     break;
                 case 'm':
-
-                    m_moveCount++;
 
                     if (checkIfMarked() && movedCase.isMine)
                     {

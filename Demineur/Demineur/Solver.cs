@@ -9,7 +9,7 @@ namespace Demineur
 {
     class Solver
     {
-        public void getDLL(String board)
+        public int[] getDLL(String board)
         {
             // Obtenir l'assemblage de notre DLL
             Assembly SampleAssembly = Assembly.LoadFrom(@"MineSweeperSolver.dll");
@@ -37,10 +37,11 @@ namespace Demineur
             {
                 Console.WriteLine("Réponse du DLL : " + result[i]);
             }
-
+            return result;
 
             Console.ReadLine();
         }
+
     }
 
 

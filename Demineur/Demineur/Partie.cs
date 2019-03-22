@@ -12,9 +12,11 @@ namespace Demineur
         Plateau m_plateau;
         Joueur m_joueur;
         UI m_UI; //Interface utilisateur.
+        Solver m_solver; //Solver.
         bool m_alive;
         char m_difficulte;
         private int m_mineRestante;     //Le nombre de mines restantes dans le plateau.
+
 
 
         //Constructeurs...
@@ -25,6 +27,7 @@ namespace Demineur
             this.m_UI = new UI();
             this.m_joueur = new Joueur(); //TODO... FIND A USE FOR THE PLAYER CLASS.
             this.m_alive = true;
+            this.m_solver = new Solver() ;
         }
 
         public char Difficulte
@@ -85,9 +88,18 @@ namespace Demineur
 
 
                 char input = m_UI.waitForMove();
-                if (input != 'e' && input != 'm')
+                if (input != 'e' && input != 'm' && input != 'c')
                 {
                     m_plateau.moveCursor(input);
+                }
+                else if (input == 'c')
+                {
+                    MineSweeperSolver test = new MineSweeperSolver();
+                    //int [] coords = m_solver.getDLL(m_plateau.convertToString());
+                    int[] coords = test.possiblePlay(m_plateau.convertToString());
+                    m_plateau.getCase(coords[0], coords[1]).setCouleurFond(Case.m_couleursPossibles.Cyan);
+                    Console.WriteLine(coords[0]);
+                    Console.WriteLine(coords[1]);
                 }
                 else
                 {
@@ -119,8 +131,6 @@ namespace Demineur
             else
             {
                 m_UI.showDeathMessage();
-                Solver s = new Solver();
-                s.getDLL(m_plateau.convertToString());
             }
 
         }

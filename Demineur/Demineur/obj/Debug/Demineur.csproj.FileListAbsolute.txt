@@ -41,3 +41,4 @@ C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur
 C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\obj\Debug\Demineur.exe
 C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\obj\Debug\Demineur.pdb
 C:\Users\1320196\Desktop\DemineurTP1Programmation3-NewFeatures\Demineur\Demineur\obj\Debug\Demineur.csproj.CopyComplete
+P:\CEGEP\2ieme année\Hiver_2019\Programmation 3\TP\DemineurTP1Programmation3\Demineur\Demineur\obj\Debug\Demineur.csproj.CopyComplete
